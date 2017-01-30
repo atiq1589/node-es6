@@ -1,0 +1,25 @@
+{
+  "name": "node-server",
+  "version": "0.0.1",
+  "description": "generic node server",
+  "main": "index.js",
+  "scripts": {},
+  "author": "Md. Atiqul Islam",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-core": "^6.22.1",
+    "babel-preset-es2015-node6": "^0.4.0",
+    "gulp": "^3.9.1",
+    "gulp-live-server": "0.0.30",
+    "gulp-shell": "^0.5.2",
+    "gulp-watch": "^4.3.11",
+    "rimraf": "^2.5.4",
+    "run-sequence": "^1.2.2"
+  },
+  "dependencies": {
+    "body-parser": "^1.16.0",
+    "express": "^4.14.1",
+    "morgan": "^1.7.0"
+  }
+}
