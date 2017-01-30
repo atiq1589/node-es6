@@ -6,6 +6,7 @@ import rimraf from 'rimraf';
 import watch from 'gulp-watch'
 
 const paths = {
+    source: 'src',
     js: ['./src/**/*.js'],
     destination: './app'
 };
@@ -13,12 +14,13 @@ const paths = {
 let express;
 
 gulp.task('default', cb => {
-   run('server', 'build', 'watch', cb);
+    run('server','build', 'watch', cb);
 });
-gulp.task('watch', () =>{
+
+gulp.task('watch', () => {
     return watch(paths.js, () => {
         gulp.start('build');
-    })
+    });
 });
 
 gulp.task('build', cb => {
@@ -26,7 +28,7 @@ gulp.task('build', cb => {
 });
 
 gulp.task('babel', shell.task([
-    'babel src --out-dir app'
+    `babel ${paths.source} --out-dir ${paths.destination}`
 ]));
 
 gulp.task('clean', cb => {
@@ -38,5 +40,5 @@ gulp.task('restart', () => {
 });
 
 gulp.task('server', () => {
-    express = server.new(paths.destination)
+    express = server(paths.destination, {env: {NODE_ENV: 'development', PORT: 3000}})
 });
