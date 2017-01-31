@@ -2,7 +2,7 @@ import express from 'express';
 import handlebars from 'handlebars';
 import fs from 'fs';
 import { Settings } from './config';
-
+import {Logger} from './logger';
 // function send(req, res, html) {
 //     console.log('send success');
 //     res.send(html);
@@ -22,7 +22,7 @@ import { Settings } from './config';
 //     });
 // });
 // server.use(express.static(__dirname + '/../public'));
-
+let server_mode;
 class Server {
     /**
      * This class will configure nodejs server using express framework
@@ -31,12 +31,13 @@ class Server {
         this.port = process.env.PORT || 3000;
         this.server = express();
         this.server_mode = process.env.NODE_ENV || Settings.SERVER_MODE;
-        
+        server_mode = this.server_mode;
+        this.log = new Logger();
     }
     RunServer() {
         try {
             this.server.listen(this.port, () => {
-                console.log(`server running on port ${this.port}`);
+                this.log.info = `server running on port ${this.port}`;
             });
         } catch (error) {
 
@@ -67,4 +68,4 @@ class MainServer extends Server {
     }
 })();
 
-export {MainServer};
+export {server_mode};
