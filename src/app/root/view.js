@@ -1,9 +1,8 @@
 import {render_file} from '../../render';
-import {Settings} from '../../config';
 
 export class IndexView {
     constructor() {
-        this.templateUrl = Settings.TEMPLATE_PATHS + 'index.html';
+        this.templateUrl = 'index.html';
     }
     
     RenderTemplate() {

@@ -1,4 +1,5 @@
 import handlebars from 'handlebars';
+import {Settings} from './config';
 import fs from 'fs';
 
 export class Renderer {
@@ -7,7 +8,7 @@ export class Renderer {
      * It will currently use handlebars
      */
     constructor(filePath, data) {
-        this.filePath = __dirname + filePath;
+        this.filePath = __dirname + Settings.TEMPLATE_PATHS + filePath;
         this.data = data;
         this.renderedFile = "";
         this._RenderFile();
