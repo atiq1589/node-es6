@@ -8,7 +8,7 @@ import watch from 'gulp-watch'
 const paths = {
     source: 'src',
     js: ['./src/**/*.js'],
-    destination: './app'
+    destination: './dest'
 };
 
 let express;
