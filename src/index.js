@@ -2,7 +2,6 @@ import express from 'express';
 import { Settings } from './config';
 import { Logger } from './logger';
 import { render_file } from './render';
-import {urls} from './app/root/urls';
 
 class Server {
     /**
@@ -37,10 +36,15 @@ class MainServer extends Server {
         return this.server_mode;
     }
     RouteListen() {
-        urls.forEach( urlItem => {
-            this.server.get(urlItem.url, (req, res) => {
-                let v = new urlItem.view();
-                res.send(v.RenderTemplate());
+        Settings.MODULES.forEach(name => {
+            let modulePath = `./app/${name}/urls`;
+            let urls = require(modulePath).urls;
+            console.log(urls);
+            urls.forEach(urlItem => {
+                this.server.get(urlItem.url, (req, res) => {
+                    let v = new urlItem.view();
+                    res.send(v.RenderTemplate());
+                });
             });
         });
     }
