@@ -1,28 +1,8 @@
 import express from 'express';
-import handlebars from 'handlebars';
-import fs from 'fs';
 import { Settings } from './config';
-import {Logger} from './logger';
-// function send(req, res, html) {
-//     console.log('send success');
-//     res.send(html);
-// }
-// server.get('*', (req, res) => {
-//     fs.readFile(__dirname + '/../public/index.html', 'utf-8', function (error, source) {
-//         var data = {
-//             "name": "Alan", "hometown": "Somewhere, TX",
-//             "kids": [{ "name": "Jimmy", "age": "12" }, { "name": "Sally", "age": "4" }]
-//         };
-//         var template = handlebars.compile(source);
-//         setTimeout(function () {
-//             var html = template(data);
-//             send(req, res, html);
-//         }, 5000);
+import { Logger } from './logger';
+import { render_file } from './render';
 
-//     });
-// });
-// server.use(express.static(__dirname + '/../public'));
-let server_mode;
 class Server {
     /**
      * This class will configure nodejs server using express framework
@@ -31,7 +11,6 @@ class Server {
         this.port = process.env.PORT || 3000;
         this.server = express();
         this.server_mode = process.env.NODE_ENV || Settings.SERVER_MODE;
-        server_mode = this.server_mode;
         this.log = new Logger();
     }
     RunServer() {
@@ -51,21 +30,29 @@ class MainServer extends Server {
      */
     constructor() {
         super();
+        this.RouteListen();
     }
-    get ServerMode(){
+    get ServerMode() {
         return this.server_mode;
     }
+    RouteListen() {
+        this.server.get('/', (req, res) => {
+             var data = {
+                "name": "Alan", "hometown": "Somewhere, TX",
+                "kids": [{ "name": "Jimmy", "age": "12" }, { "name": "Sally", "age": "4" }]
+            };
+            let html = render_file('/../public/index.html', data);
+            res.send(html);
+        });
+    }
 }
-
 
 (function () {
     let node = new MainServer();
     node.RunServer();
-    switch (node.ServerMode){
+    switch (node.ServerMode) {
         case 'development':
             console.log('Server running in development mode');
-            
+
     }
 })();
-
-export {server_mode};
