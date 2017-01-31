@@ -1,9 +1,10 @@
 const Settings = {
     SERVER_MODE: 'development',
-    STATIC_PATHS: [
+    STATIC_URL : '/static',
+    STATIC_DIRS: [
         '/../public',
     ],
-    TEMPLATE_PATHS: '/../public/',
+    TEMPLATE_PATH: '/../public/',
     MODULES: [
         'root'
     ]

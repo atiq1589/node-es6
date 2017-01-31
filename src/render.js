@@ -8,7 +8,7 @@ export class Renderer {
      * It will currently use handlebars
      */
     constructor(filePath, data) {
-        this.filePath = __dirname + Settings.TEMPLATE_PATHS + filePath;
+        this.filePath = __dirname + Settings.TEMPLATE_PATH + filePath;
         this.data = data;
         this.renderedFile = "";
         this._RenderFile();
