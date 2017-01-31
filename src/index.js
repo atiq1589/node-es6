@@ -2,6 +2,7 @@ import express from 'express';
 import { Settings } from './config';
 import { Logger } from './logger';
 import { render_file } from './render';
+import {urls} from './app/root/urls';
 
 class Server {
     /**
@@ -36,13 +37,11 @@ class MainServer extends Server {
         return this.server_mode;
     }
     RouteListen() {
-        this.server.get('/', (req, res) => {
-             var data = {
-                "name": "Alan", "hometown": "Somewhere, TX",
-                "kids": [{ "name": "Jimmy", "age": "12" }, { "name": "Sally", "age": "4" }]
-            };
-            let html = render_file('/../public/index.html', data);
-            res.send(html);
+        urls.forEach( urlItem => {
+            this.server.get(urlItem.url, (req, res) => {
+                let v = new urlItem.view();
+                res.send(v.RenderTemplate());
+            });
         });
     }
 }
