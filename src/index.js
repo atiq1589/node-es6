@@ -1,4 +1,5 @@
 import express from 'express';
+import path from 'path';
 import { Settings } from './config';
 import { Logger } from './logger';
 import { render_file } from './render';
@@ -31,6 +32,7 @@ class MainServer extends Server {
     constructor() {
         super();
         this.RouteListen();
+        this.LoadStatic();
     }
     get ServerMode() {
         return this.server_mode;
@@ -39,13 +41,17 @@ class MainServer extends Server {
         Settings.MODULES.forEach(name => {
             let modulePath = `./app/${name}/urls`;
             let urls = require(modulePath).urls;
-            console.log(urls);
             urls.forEach(urlItem => {
                 this.server.get(urlItem.url, (req, res) => {
                     let v = new urlItem.view();
                     res.send(v.RenderTemplate());
                 });
             });
+        });
+    }
+    LoadStatic(){
+        Settings.STATIC_DIRS.forEach( staticPath => {
+            this.server.use(Settings.STATIC_URL, express.static(path.join(__dirname, staticPath)));
         });
     }
 }
