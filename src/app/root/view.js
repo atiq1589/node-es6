@@ -5,6 +5,7 @@ export class IndexView {
     constructor() {
         this.templateUrl = Settings.TEMPLATE_PATHS + 'index.html';
     }
+    
     RenderTemplate() {
         let data = {
             "name": "Alan", "hometown": "Somewhere, TX",
