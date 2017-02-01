@@ -1,6 +1,7 @@
 
 let fs = require('fs');
-var exec = require('child_process').exec;
+let exec = require('child_process').exec;
+let process = require('child_process');
 
 class Command {
     constructor() {
@@ -24,6 +25,12 @@ class Command {
             } else {
                 console.error("Module already exists");
             }
+            break;
+        case 'startserver':
+            let c = `nodeus startserver ${__dirname}`;
+            process.exec(c, (error, stdout, stderr) => {
+
+            })
             break;
     }
 

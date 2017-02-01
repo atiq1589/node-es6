@@ -1,6 +1,5 @@
 import express from 'express';
 import path from 'path';
-import { Settings } from './temProtoProject/config';
 import { Logger } from './logger';
 import { render_file } from './render';
 
@@ -8,10 +7,14 @@ class Server {
     /**
      * This class will configure nodejs server using express framework
      */
-    constructor(port, mode) {
+    constructor(port, mode, rootDir) {
+        this.rootDir = rootDir;
         this.port = process.env.PORT || port || 3000;
         this.server = express();
         this.server_mode = process.env.NODE_ENV || mode || Settings.SERVER_MODE;
+        let projName = this.rootDir.split('/');
+        projName = projName[projName.length - 1];
+        this.Settings = require(this.rootDir + '/' + projName + '/config').Settings;
         this.log = new Logger();
     }
     RunServer() {
@@ -29,16 +32,16 @@ export class MainServer extends Server {
     /**
      * This class will start the node server
      */
-    constructor(port, mode) {
-        super(port, mode);
-        // this.RouteListen();
-        // this.LoadStatic();
+    constructor(port, mode, rootDir) {
+        super(port, mode, rootDir);
+        this.RouteListen();
+        this.LoadStatic();
     }
     get ServerMode() {
         return this.server_mode;
     }
     RouteListen() {
-        Settings.MODULES.forEach(name => {
+        this.Settings.MODULES.forEach(name => {
             let modulePath = `./app/${name}/urls`;
             let urls = require(modulePath).urls;
             urls.forEach(urlItem => {
@@ -50,7 +53,7 @@ export class MainServer extends Server {
         });
     }
     LoadStatic() {
-        Settings.STATIC_DIRS.forEach(staticPath => {
+        this.Settings.STATIC_DIRS.forEach(staticPath => {
             this.server.use(Settings.STATIC_URL, express.static(path.join(__dirname, staticPath)));
         });
     }
