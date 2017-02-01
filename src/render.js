@@ -1,5 +1,5 @@
 import handlebars from 'handlebars';
-import {Settings} from './config';
+import {Settings} from './temProtoProject/config';
 import fs from 'fs';
 
 export class Renderer {

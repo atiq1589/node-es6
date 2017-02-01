@@ -4,7 +4,8 @@ var exec = require('child_process').exec;
 
 class Command {
     constructor() {
-        this.rootDir = __dirname + '/app/';
+        this.rootDir = __dirname;
+        console.log(this.rootDir);
         this.args = process.argv;
         this.args.splice(0, 1);
         this.args.splice(0, 1);
@@ -15,7 +16,7 @@ class Command {
     let cmd = new Command();
     switch (cmd.args[0]) {
         case 'newmodule':
-            let dir = cmd.rootDir + cmd.args[1];
+            let dir = `${cmd.rootDir}/${cmd.args[1]}`;
             if (!fs.existsSync(dir)) {
                 fs.mkdirSync(dir);
                 fs.closeSync(fs.openSync(dir + '/urls.js', 'w'));

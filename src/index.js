@@ -1,6 +1,6 @@
 import express from 'express';
 import path from 'path';
-import { Settings } from './config';
+import { Settings } from './temProtoProject/config';
 import { Logger } from './logger';
 import { render_file } from './render';
 
@@ -8,10 +8,10 @@ class Server {
     /**
      * This class will configure nodejs server using express framework
      */
-    constructor() {
-        this.port = process.env.PORT || 3000;
+    constructor(port, mode) {
+        this.port = process.env.PORT || port || 3000;
         this.server = express();
-        this.server_mode = process.env.NODE_ENV || Settings.SERVER_MODE;
+        this.server_mode = process.env.NODE_ENV || mode || Settings.SERVER_MODE;
         this.log = new Logger();
     }
     RunServer() {
@@ -25,14 +25,14 @@ class Server {
     }
 }
 
-class MainServer extends Server {
+export class MainServer extends Server {
     /**
      * This class will start the node server
      */
-    constructor() {
-        super();
-        this.RouteListen();
-        this.LoadStatic();
+    constructor(port, mode) {
+        super(port, mode);
+        // this.RouteListen();
+        // this.LoadStatic();
     }
     get ServerMode() {
         return this.server_mode;
@@ -49,19 +49,19 @@ class MainServer extends Server {
             });
         });
     }
-    LoadStatic(){
-        Settings.STATIC_DIRS.forEach( staticPath => {
+    LoadStatic() {
+        Settings.STATIC_DIRS.forEach(staticPath => {
             this.server.use(Settings.STATIC_URL, express.static(path.join(__dirname, staticPath)));
         });
     }
 }
 
-(function () {
-    let node = new MainServer();
-    node.RunServer();
-    switch (node.ServerMode) {
-        case 'development':
-            console.log('Server running in development mode');
+// (function () {
+//     let node = new MainServer();
+//     node.RunServer();
+//     switch (node.ServerMode) {
+//         case 'development':
+//             console.log('Server running in development mode');
 
-    }
-})();
+//     }
+// })();

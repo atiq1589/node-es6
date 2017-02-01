@@ -1,11 +1,14 @@
 {
-  "name": "node-server",
+  "name": "nodeus",
   "version": "0.0.1",
   "description": "generic node server",
   "main": "index.js",
   "scripts": {},
   "author": "Md. Atiqul Islam",
   "license": "ISC",
+  "bin":{
+    "nodeus": "dest/command/command.js"
+  },
   "devDependencies": {
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
