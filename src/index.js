@@ -9,12 +9,14 @@ class Server {
      */
     constructor(port, mode, rootDir) {
         this.rootDir = rootDir;
-        this.port = process.env.PORT || port || 3000;
-        this.server = express();
-        this.server_mode = process.env.NODE_ENV || mode || Settings.SERVER_MODE;
         let projName = this.rootDir.split('/');
         projName = projName[projName.length - 1];
         this.Settings = require(this.rootDir + '/' + projName + '/config').Settings;
+
+        this.port = process.env.PORT || port || 3000;
+        this.server = express();
+        this.server_mode = process.env.NODE_ENV || mode || this.Settings.SERVER_MODE;
+        
         this.log = new Logger();
     }
     RunServer() {
@@ -42,7 +44,7 @@ export class MainServer extends Server {
     }
     RouteListen() {
         this.Settings.MODULES.forEach(name => {
-            let modulePath = `./app/${name}/urls`;
+            let modulePath = `${this.rootDir}/${name}/urls`;
             let urls = require(modulePath).urls;
             urls.forEach(urlItem => {
                 this.server.get(urlItem.url, (req, res) => {
@@ -54,7 +56,7 @@ export class MainServer extends Server {
     }
     LoadStatic() {
         this.Settings.STATIC_DIRS.forEach(staticPath => {
-            this.server.use(Settings.STATIC_URL, express.static(path.join(__dirname, staticPath)));
+            this.server.use(this.Settings.STATIC_URL, express.static(path.join(__dirname, staticPath)));
         });
     }
 }

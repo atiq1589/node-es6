@@ -6,7 +6,6 @@ const Settings = {
     ],
     TEMPLATE_PATH: '/../public/',
     MODULES: [
-        'root'
     ]
 };
 
