@@ -39,3 +39,6 @@ jspm_packages
 
 # Babel Compiled App directory
 dest/
+
+#lock files
+*lock.json
